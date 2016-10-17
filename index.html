@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>玻璃指数管理系统</title>
+		<link rel="stylesheet" href="utilLib/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/index.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+		<script src="lib/vue.js"></script>
+		<script src="lib/vue-router.js"></script>
+		<script src="lib/jquery.min.1.8.3.js"></script>
+		<script src="lib/bootstrap.min.js"></script>
+		
+	</head>
+	<body>
+		<header class="layout_top_header">玻璃指数管理系统</header>
+		<section id="app" style="width:100%;height:100%">
+			<nav class="layout_left_menu">
+				<ul id="menu">
+					<li class="childUlLi">
+						<router-link to="/main"><i class="glyph-icon icon-home"></i>首页</router-link>
+					</li>
+					<li class="childUlLi">
+						<router-link to="/openIndex"><i class="glyph-icon icon-reorder"></i>初期指数</router-link>
+					</li>
+					<li class="childUlLi">
+						<router-link to="/addIndex"><i class="glyph-icon icon-add"></i>新增指数</router-link>
+					</li>
+					<li class="childUlLi">
+						<router-link to="/"><i class="glyph-icon icon-location-arrow"></i>同步指数</router-link>
+					</li>
+				</ul>
+			</nav>
+			<section id="layout_right_content" class="layout_right_content">
+				<div class="mian_content">
+
+					<div id="page_content" style="width: 100%;height: 100%">
+						<router-view></router-view>
+			        </div>
+		        </div>
+			</section>
+		</section>
+		<!-- main页面模版开始 -->
+		<template id="main">
+			<div class="div_from_aoto" style="width: 500px;">
+			    <FORM>
+			        <DIV class="control-group">
+			            <label class="laber_from">用户名</label>
+			            <DIV  class="controls" ><INPUT class="input_from" type=text placeholder=" 请输入用户名"><P class=help-block></P></DIV>
+			        </DIV>
+			        <DIV class="control-group">
+			            <LABEL class="laber_from">密码</LABEL>
+			            <DIV  class="controls" ><INPUT class="input_from" type=text placeholder=" 请输入密码"><P class=help-block></P></DIV>
+			        </DIV>
+			               <DIV class="control-group">
+			            <LABEL class="laber_from" ></LABEL>
+			            <DIV class="controls" ><button class="btn btn-success" style="width:120px;" >确认</button></DIV>
+			        </DIV>
+			    </FORM>
+			</div>
+		</template>
+		<!-- main页面模版结束 -->
+		<!-- openIndex页面模版开始 -->
+		<template id="openIndex">
+			<div class="div_from_aoto">
+				<form action="">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th class="center">标识</th>
+								<th>名称</th>
+								<th>日期</th>
+								<th>期初指数</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody class="text-center">
+							<tr v-for="item in items">
+								<td>{{item.num}}</td>
+								<td>{{item.name}}</td>
+								<td>{{item.date}}</td>
+								<td>{{item.index}}</td>
+								<td><a>修改</a>/<a>删除</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+			</div>
+		</template>
+		<!-- openIndex页面模版结束 -->
+		<!-- addIndex模版开始 -->
+		<template id="addIndex">
+			<div class="container">
+				<div class="col-md-12">
+					<div id="addApp">
+						<div>
+							<label class="form-group">名称</label>
+							<input type="text" class="form-control">
+						</div><br>
+						<div>
+							<label class="form-group">日期</label>
+							<input type="text" class="form-control">
+						</div><br>
+						<div>
+							<label class="form-group">期初指数</label>
+							<input type="text" class="form-control">
+						</div>
+						<br>
+						<button class="btn btn-primary btn-block">添加</button>
+						<br /><br />
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th class="text-center">序号</th>
+									<th class="text-center">名称</th>
+									<th class="text-center">日期</th>
+									<th class="text-center">期初指数</th>
+									<th class="text-center">操作</th>
+								</tr>
+							</thead>
+							<tbody class="text-center">
+								<tr v-for="item in items" >
+									<td class="">{{item.id}}</td>
+									<td >{{item.name}}</td>
+									<td >{{item.date}}</td>
+									<td >{{item.index}}</td>
+									<td class="text-center">
+										<button type="button" class="btn btn-success">删除</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>	
+		</template>	
+		<!-- addIndex模版结束 -->
+		<footer class="layout_footer">
+			Copyright © 2016 - 快米科技
+		</footer>
+		<script src="src/index.js"></script>
+	</body>
+</html>

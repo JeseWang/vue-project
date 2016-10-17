@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title></title>
+	<link rel="stylesheet" href="../utilLib/bootstrap.min.css" />
+	<link rel="stylesheet" href="../css/main.css" />
+	
+</head>
+<body>
+	<div class="div_from_aoto" id="openIndex">
+		<form action="">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th class="center">标识</th>
+						<th>名称</th>
+						<th>日期</th>
+						<th>期初指数</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody class="text-center">
+					<tr v-for="item in items">
+						<td>{{item.num}}</td>
+						<td>{{item.name}}</td>
+						<td>{{item.date}}</td>
+						<td>{{item.index}}</td>
+						<td><a @click="change">修改</a>/<a @click="delete">删除</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>	
+</body>
+</html>
