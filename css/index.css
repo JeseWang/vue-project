@@ -21,6 +21,7 @@
 .icon-signal:before{content:"\f012";font-size: 16px}
 .icon-location-arrow:before{content:"\f124";font-size: 16px}
 .icon-add:before{content:"\f012";font-size:16px;}
+.icon-return:before{content:"\f122";font-size:20px;}
 .glyph-icon{
     vertical-align:middle;
     font-family: FontAwesome;font-weight: 400;font-size:12px;font-style: normal;padding-top:5px;padding-right: 5px;

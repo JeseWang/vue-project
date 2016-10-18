@@ -39,3 +39,6 @@ input:focus{
 th{
 	text-align: center;
 }
+.readonly{
+    /*background: #ccc;*/
+}
