@@ -7,22 +7,21 @@
 		<link rel="stylesheet" href="css/index.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css">
 		<script src="lib/vue.js"></script>
-		<script src="lib/vue-router.js"></script>
 		<script src="lib/jquery-3.0.0.js"></script>
 		<script src="lib/bootstrap.min.js"></script>
 		<script src="lib/echarts.min.js"></script>
 		
 	</head>
 	<body>
-		<header class="layout_top_header">玻璃指数管理系统</header>
-		<section id="app" style="width:100%;height:100%;">
+		<section id="app">
+		<header class="layout_top_header">玻璃指数管理系统<span class="header_right" style="float:right;margin-right:50px">{{userName}}</span></header>
 			<nav class="layout_left_menu">
 				<ul id="menu">
 					<li class="childUlLi" @click="signIndex()">
 						<a href="#"><i class="glyph-icon icon-home"></i>登陆</a>
 					</li>
 					<li class="childUlLi" @click="openIndex()">
-						<a href="#"><i class="glyph-icon icon-add"></i>初期指数</a>
+						<a href="#"><i class="glyph-icon icon-add"></i>期初指数</a>
 					</li>
 					<li class="childUlLi" @click="upData()">
 						<a href="#"><i class="glyph-icon icon-location-arrow"></i>同步指数</a>
@@ -31,8 +30,38 @@
 			</nav>
 			<section id="layout_right_content" class="layout_right_content">
 				<div class="mian_content">
-					<div id="page_content" style="width: 100%;height: 100%;">
-						<div class="container" id="openIndex" v-if="signIn" style="width:100%">
+
+					<!-- 登陆页面开始 -->
+					<div id="signIn" v-if="islogin">
+						<div class="div_from_aoto">
+						    <form>
+						    	<div class="control-group">
+						    		<span>msg:{{msg}}</span>
+						    	</div>
+						    	<div class="control-group">
+						    		<span>userName:{{userName}}</span>
+						    	</div>
+						        <div class="control-group">
+						            <label class="laber_from">用户名</label>
+						            <div class="controls" ><input class="input_from" type="text" placeholder=" 请输入用户名" v-model="loginModel.username"><p class=help-block></p></div>
+						        </div>
+						        <div class="control-group">
+						            <label class="laber_from">密码</label>
+						            <div  class="controls" ><input class="input_from" type="text" placeholder=" 请输入密码" v-model="loginModel.password"><p class=help-block></p></div>
+						        </div>
+						               <div class="control-group">
+						            <label class="laber_from" ></label>
+						            <div class="controls" ><button id="login" class="btn btn-success" style="width:120px;" @click="login">登陆</button></div>
+						        </div>
+						    </form>
+						</div>
+					</div>
+					<!-- 登陆页面开始结束 -->
+
+					<div id="page_content">
+					
+						<!--  具体内容开始-->
+						<div class="container" id="openIndex">
 							<div class="col-md-12">
 								<form >
 									<table class="table table-hover">
@@ -67,31 +96,18 @@
 									</table>
 								</form>
 							</div>
-						</div>	
-						<div id="signIn" v-if="!signIn">
-							<div class="div_from_aoto" style="width: 500px;">
-							    <FORM>
-							        <DIV class="control-group">
-							            <label class="laber_from">用户名</label>
-							            <DIV  class="controls" ><INPUT class="input_from" type=text placeholder=" 请输入用户名"><P class=help-block></P></DIV>
-							        </DIV>
-							        <DIV class="control-group">
-							            <LABEL class="laber_from">密码</LABEL>
-							            <DIV  class="controls" ><INPUT class="input_from" type=text placeholder=" 请输入密码"><P class=help-block></P></DIV>
-							        </DIV>
-							               <DIV class="control-group">
-							            <LABEL class="laber_from" ></LABEL>
-							            <DIV class="controls" ><button class="btn btn-success" style="width:120px;" >确认</button></DIV>
-							        </DIV>
-							    </FORM>
-							</div>
 						</div>
-						<div id="eCharts" style="position:fixed;top:0;left:0;background:#ddd;width:100%;height:100%;opacity: 0.9;display:none" >
+						<!--  具体内容结束-->
+
+						<!-- 图表部分开始 -->
+						<div id="eCharts">
 							<i class="glyph-icon icon-return" style="position:absolute;right:50px;top:10px;cursor:pointer" @click="close()"></i>
-							<div id="showCharts" style="width: 1500px;height: 800px;margin:100px auto">
+							<div id="showCharts" style="width: 1500px;height: 600px;margin:100px auto">
 								<script src="src/showCharts.js"></script>
 							</div>
 						</div>
+						<!-- 图表部分开始 -->
+						
 			        </div>
 		        </div>
 			</section>

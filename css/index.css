@@ -35,7 +35,10 @@ body{padding: 0px;
     font-size: 14px;
     /*background-color: #e7e8eb;*/
 }
-
+#app{
+    width:100%;
+    height:100%;
+}
 .layout_top_header{
     background-color: #353636;
     width: 100%;
@@ -158,7 +161,9 @@ body{padding: 0px;
     height: 100%;
 
 }
-
+.container{
+    width: 100%;
+}
 .layout_footer{
     position: absolute;
     bottom: 0px;
@@ -169,4 +174,14 @@ body{padding: 0px;
     width: 100%;
     height: 30px;
     line-height: 30px;
+}
+#eCharts{
+    position:fixed;
+    top:0;
+    left:0;
+    background:#ddd;
+    width:100%;
+    height:100%;
+    opacity: 0.9;
+    display:none;
 }
