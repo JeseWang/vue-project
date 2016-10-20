@@ -32,18 +32,12 @@
 				<div class="mian_content">
 
 					<!-- 登陆页面开始 -->
-					<div id="signIn" v-if="islogin">
+					<div id="signIn" v-if="islogin !='ok'">
 						<div class="div_from_aoto">
 						    <form>
-						    	<div class="control-group">
-						    		<span>msg:{{msg}}</span>
-						    	</div>
-						    	<div class="control-group">
-						    		<span>userName:{{userName}}</span>
-						    	</div>
 						        <div class="control-group">
 						            <label class="laber_from">用户名</label>
-						            <div class="controls" ><input class="input_from" type="text" placeholder=" 请输入用户名" v-model="loginModel.username"><p class=help-block></p></div>
+						            <div class="controls" ><input class="input_from" type="text" placeholder=" 请输入用户名" v-model="loginModel.phone"><p class=help-block></p></div>
 						        </div>
 						        <div class="control-group">
 						            <label class="laber_from">密码</label>
@@ -61,13 +55,13 @@
 					<div id="page_content">
 					
 						<!--  具体内容开始-->
-						<div class="container" id="openIndex">
+						<div class="container" id="openIndex" v-if="islogin == 'ok'">
 							<div class="col-md-12">
 								<form >
 									<table class="table table-hover">
 										<thead>
 											<tr>
-												<th>序号</th>
+												<th>序号{{msg}}</th>
 												<th>名称</th>
 												<th>日期</th>
 												<th>期初指数</th>
@@ -76,20 +70,21 @@
 										</thead>
 										<tbody class="text-center">
 											<tr>
-												<td><input type="text" name="" v-model="item.id"></td>
-												<td><input type="text" name="" v-model="item.name"></td>
-												<td><input type="text" name="" v-model="item.date"></td>
-												<td><input type="text" name="" v-model="item.index"></td>
-												<td><button type="button" class="btn btn-success" @click="addIndex()" style="width:113px">添加</button></td>
+												<td><input type="text" name="" readonly="true" placeholder=" 请勿输入" v-model="item.Id"></td>
+												<td><input type="text" name="" placeholder=" 输入名称" v-model="item.IndexName"></td>
+												<td><input type="text" name="" placeholder=" 格式：XXXX-XX-XX" v-model="item.StartDate"></td>
+												<td><input type="text" name="" placeholder=" 输入指数" v-model="item.IndexNum"></td>
+												<td><input type="button" class="btn btn-success" @click="addIndex()" value="添加" style="width: 170px"</td>
 											</tr>
 											<tr v-for="item in items" id="indexItems">
-												<td><input type="text" disabled class="readonly" value="{{item.id}}"></td>
-												<td><input type="text" disabled class="readonly" value="{{item.name}}"></td>
-												<td><input type="text" disabled class="readonly" value="{{item.date}}"></td>
-												<td><input type="text" disabled class="readonly" value="{{item.index}}"></td>
+												<td><input type="text" disabled readonly="true" class="readonly" v-model="item.Id"></td>
+												<td><input type="text" disabled v-model="item.IndexName"></td>
+												<td><input type="text" disabled v-model="item.StartDate"></td>
+												<td><input type="text" disabled v-model="item.IndexNum"></td>
 												<td>
 													<button type="button" class="btn btn-primary" @click="changeIndex(item)">修改</button>
 													<button type="button" class="btn btn-danger" @click="deleteIndex(item)">删除</button>
+													<button type="button" class="btn btn-warning" @click="indexInfo(item)">详情</button>
 												</td>
 											</tr>
 										</tbody>

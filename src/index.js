@@ -3,40 +3,34 @@ var vm = new Vue({
  	el: '#app',
 
  	ready:function(){
- 		this.userName = sessionStorage.getItem('userName');
- 		if(this.userName){
- 				this.islogin = false;
- 				$.ajax({
- 					type:'get',
- 					url:'http://127.0.0.1:8080/indexs.json',
- 					success:function(data){
- 						console.log('111')
- 						vm.items = data
- 					}
- 				});
- 			
- 			}
- 		
+ 		this.userName = sessionStorage.getItem('userPhone');
+ 		this.islogin = sessionStorage.getItem('islogin');
+ 		if(this.islogin == 'ok'){
+			$.get('/Api/GIPreIndex?FindAll',function(data){
+	 			vm.items = data;
+	 			console.log('初始化数据成功')
+ 			})
+		}
  	},
 
  	data:{
  		items: [],
  		item:{
- 			id:'',
- 			name:'',
- 			date:'',
- 			index:''
+ 			Id:'',
+ 			StartDate:'',
+ 			IndexName:'',
+ 			IndexNum:''
  		},
- 		loginUrl:'',
+ 		loginUrl:'/api/user?',
+
  		loginModel:{
- 			username:'',
+ 			phone:'',
  			password:'',
- 			grant_type:'password'
  		},
  		msg:'',
  		userName:'',
  		passWord:'',
- 		islogin:true
+ 		islogin:''
  	},
 
  	computed:{
@@ -45,67 +39,91 @@ var vm = new Vue({
 
  	methods:{
  		// 添加指数
- 		addIndex:function(item){
- 			this.items.push(this.item);
- 			this.item = '';
+ 		addIndex:function(){
+			var vm = this;
+ 			$.ajax({
+ 				url: '/api/GIPreIndex',
+ 				type: 'POST',
+ 				data: vm.item,
+ 				success:function(data){
+ 					vm.item.Id = data.Id;
+ 					vm.items.push(vm.item);
+ 					console.log('添加成功');
+ 					vm.item = '';
+ 				}
+ 			})
  		},
  		// 删除指数
  		deleteIndex:function(item){
- 			this.items.$remove(item)
+ 			var vm = this;
+ 			$.ajax({
+ 				url: '/api/GIPreIndex?DelById&id=' + item.Id,
+ 				type: 'get',
+ 				success:function(data){
+ 					vm.items.$remove(item)
+ 					console.log('删除成功！')
+ 				}
+ 			})
+ 			
  		},
  		// 修改指数
  		changeIndex:function(item){
- 			str = $(event.target).text()=="修改"?"保存":"修改"
- 			$(event.target).text(str);
- 			if($(event.target).text()=="保存"){
- 				$(event.target).parents('tr').find('input').removeAttr('disabled');
+ 			var et = $(event.target);
+ 			if(et.text() == '修改'){
+ 				et.text('保存')
+ 				et.parents('tr').find('input').removeAttr('disabled');
  			}else{
- 				$(event.target).parents('tr').find('input').attr('disabled','disabled');
- 			}
+ 				$.post('/api/GIPreIndex',item,function(){
+ 					et.text('修改')
+ 					et.parents('tr').find('input').attr('disabled','disabled');
+	 				console.log('修改成功')
+	 			})
+ 			};
+ 			
  		},
+ 		// 指数详情
+ 		indexInfo:function(item){
+ 			console.log(item)
+ 		},
+
  		// 登陆按钮
  		signIndex:function(){
- 			$('#signIn').show();
+ 			// $('#signIn').show();
  		},
  		// 登陆页面确认登陆
  		login:function(){
-
  			var vm = this;
  			vm.msg = '';
  			vm.result = '';
 
- 			vm.userName = vm.loginModel.username
- 			sessionStorage.setItem('userName',vm.loginModel.username);
- 			sessionStorage.setItem('passWord',vm.loginModel.password);
-
- 			
  			$.ajax({
- 				url: vm.loginUrl,
+ 				url: vm.loginUrl + 'phone=' + vm.loginModel.phone + '&password=' + vm.loginModel.password,
  				type:'POST',
- 				dataType:'json',
  				data: vm.loginModel,
  				success: function(data){
  					vm.msg = '登陆成功！';
- 					vm.userName = data.userName;
- 					sessionStorage.setItem('userName',vm.userName);
- 					sessionStorage.setItem('accessToken',data.access_token);
+ 					alert(vm.msg)
+ 					vm.islogin = data;
+ 					vm.userName = vm.loginModel.phone;
+ 					sessionStorage.setItem('userPhone',vm.loginModel.phone);
+ 					sessionStorage.setItem('islogin',data);
+ 					$.get('/Api/GIPreIndex?FindAll',function(data){
+			 			vm.items = data;
+			 			console.log('获取数据成功')
+		 			})
  				},
  				error: vm.requestError
  			});
+
  		},
  		requestError: function(xhr,errorType,error){
  			this.msg = '登陆失败';
- 			if(vm.userName){
- 				vm.islogin = false
- 				$.get('http://127.0.0.1:8080/indexs.json',function(data){
-		 			vm.items = data;
-		 		})
- 			}
+ 			alert(this.msg);
  		},
 
  		// 期初指数按钮
  		openIndex:function(){
- 			if(!this.islogin){
+ 			if(this.islogin=='ok'){
  				$('#eCharts').show();
  			}
  		},
@@ -115,9 +133,8 @@ var vm = new Vue({
  		},
  		// 同步指数按钮
  		upData:function(){
-		 	$.get('http://127.0.0.1:8080/indexs.json',{},function(res){
-				console.log('123')
-			});
+ 			// location.reload();
+ 			console.log(this.items)
  		},
 
  	}
