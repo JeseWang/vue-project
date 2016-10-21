@@ -61,7 +61,7 @@
 									<table class="table table-hover">
 										<thead>
 											<tr>
-												<th>序号{{msg}}</th>
+												<th>序号</th>
 												<th>名称</th>
 												<th>日期</th>
 												<th>期初指数</th>
@@ -93,6 +93,64 @@
 							</div>
 						</div>
 						<!--  具体内容结束-->
+						
+						<!-- 指数详情开始 -->
+						<div class="container" id="indexInfo" style="display:none">
+							<div class="col-md-12">
+								<table class="table table-hover col-md-12">
+									<thead>
+										<div class="indexInfoTitle">
+											<span>指数序号： 【 {{itemInfo.Id}} 】</span>
+											<span>指数名称： 【 {{itemInfo.IndexName}} 】</span>
+											<span>指数日期： 【 {{itemInfo.StartDate}} 】</span>
+											<span>期初指数： 【 {{itemInfo.IndexNum}} 】</span>
+										</div>
+										<tr style="position:relative">
+											<th>企业Id</th>
+											<th>入驻时间</th>
+											<th>退出时间</th>
+											<th>企业名称</th>
+											<th>
+												<button type="button" class="btn btn-primary" @click="showComList()">企业列表</button>
+												<div class="companyList" id="companyList" style="font-weight:400">
+													<table class="table table-hover">
+														<thead>
+															<tr>
+																<th>序号</th>
+																<th>企业ID</th>
+																<th><input type="text" placeholder="搜索企业" v-model=""></th>
+																<th><button type="button" value="确定" class="btn btn-success" @click="search()">搜索</button></th>
+															</tr>
+														</thead>
+														<tbody v-for="item in comList">
+															<tr>
+																<td style="width: 80px">{{item.Id}}</td>
+																<td style="width: 100px">{{item.ProjectId}}</td>
+																<td>{{item.ProjectName}}</td>
+																<td><button type="button" class="btn btn-danger" @click="addCompany(item)">添加</button></td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</th>
+										</tr>
+									</thead>
+									<tbody class="text-center">
+										<tr v-for="item in comItems">
+											<td><input type="text" disabled value="{{item.ProjectId}}"></td>
+											<td><input type="text" disabled value="{{item.InDate}}"></td>
+											<td><input type="text" disabled value="{{item.OutDate}}"></td>
+											<td><input type="text" disabled value="{{item.ProjectName}}"></td>
+											<td style="width: 291px">
+												
+												<button type="button" class="btn btn-warning" @click="quitCompany(item)">退出</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<!-- 指数详情结束 -->
 
 						<!-- 图表部分开始 -->
 						<div id="eCharts">

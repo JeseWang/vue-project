@@ -14,13 +14,24 @@ var vm = new Vue({
  	},
 
  	data:{
+ 		// 指数列表
  		items: [],
+ 		// 临时储存
  		item:{
  			Id:'',
  			StartDate:'',
+ 			EndDate:'',
  			IndexName:'',
- 			IndexNum:''
+ 			IndexNum:'',
+ 			ComName:''
+
  		},
+ 		// 指数详情列表顶部展示
+ 		itemInfo: '',
+ 		// 指数详情公司列表
+ 		comItems:[],
+ 		// 所有公司列表
+ 		comList:[],
  		loginUrl:'/api/user?',
 
  		loginModel:{
@@ -30,11 +41,8 @@ var vm = new Vue({
  		msg:'',
  		userName:'',
  		passWord:'',
+ 		// 是否登陆标识
  		islogin:''
- 	},
-
- 	computed:{
- 		
  	},
 
  	methods:{
@@ -50,6 +58,9 @@ var vm = new Vue({
  					vm.items.push(vm.item);
  					console.log('添加成功');
  					vm.item = '';
+ 				},
+ 				error:function(){
+ 					alert('您输入的内容有误！')
  				}
  			})
  		},
@@ -83,7 +94,18 @@ var vm = new Vue({
  		},
  		// 指数详情
  		indexInfo:function(item){
- 			console.log(item)
+ 			var vm = this;
+ 			$('#indexInfo').show().siblings().hide();
+ 			vm.itemInfo = item;
+
+ 			$.ajax({
+ 				url:'/api/GIPreIndexProject?FindAll&'+'preIndexId='+item.Id,
+ 				type:'get',
+ 				success:function(data){
+ 					vm.comItems = data;
+ 					console.log('指数详情获取成功')
+ 				}
+ 			})
  		},
 
  		// 登陆按钮
@@ -102,7 +124,6 @@ var vm = new Vue({
  				data: vm.loginModel,
  				success: function(data){
  					vm.msg = '登陆成功！';
- 					alert(vm.msg)
  					vm.islogin = data;
  					vm.userName = vm.loginModel.phone;
  					sessionStorage.setItem('userPhone',vm.loginModel.phone);
@@ -112,19 +133,19 @@ var vm = new Vue({
 			 			console.log('获取数据成功')
 		 			})
  				},
- 				error: vm.requestError
+ 				error: function(){
+ 					this.msg = '登陆失败';
+ 					alert(vm.msg);
+ 				}
  			});
 
- 		},
- 		requestError: function(xhr,errorType,error){
- 			this.msg = '登陆失败';
- 			alert(this.msg);
  		},
 
  		// 期初指数按钮
  		openIndex:function(){
  			if(this.islogin=='ok'){
- 				$('#eCharts').show();
+ 				// $('#eCharts').show();
+ 				$('#openIndex').show().siblings().hide();
  			}
  		},
  		// 关闭按钮
@@ -136,6 +157,33 @@ var vm = new Vue({
  			// location.reload();
  			console.log(this.items)
  		},
-
+ 		// 显示企业列表
+ 		showComList:function(){
+ 			var vm = this;
+ 			$('#companyList').toggle(100);
+ 			$.get('/api/GIProject?FindAll&searchName',function(data){
+ 				vm.comList = data;
+ 			})
+ 		},
+ 		addCompany:function(item){
+ 			var vm = this;
+ 			item = {
+ 				Id:'',
+ 				PreIndexId: vm.itemInfo.Id,
+ 				ProjectId: item.ProjectId,
+ 				ProjectName: item.ProjectName
+ 			};
+ 			$.post('/api/GIPreIndexProject',item,function(data){
+ 				vm.comItems.push(data);
+ 				console.log('添加成功')
+ 			})
+ 		},
+ 		quitCompany:function(item){
+ 			var vm = this;
+ 			$.get('/api/GIPreIndexProject?StopById&Id='+ item.Id,function(data){
+ 				item.OutDate = data.OutDate;
+ 				console.log('退出成功')
+ 			})
+ 		}
  	}
  })
