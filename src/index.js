@@ -42,7 +42,9 @@ var vm = new Vue({
  		userName:'',
  		passWord:'',
  		// 是否登陆标识
- 		islogin:''
+ 		islogin:'',
+ 		// 搜索的企业
+ 		searchName:''
  	},
 
  	methods:{
@@ -144,45 +146,57 @@ var vm = new Vue({
  		// 期初指数按钮
  		openIndex:function(){
  			if(this.islogin=='ok'){
- 				// $('#eCharts').show();
  				$('#openIndex').show().siblings().hide();
  			}
  		},
- 		// 关闭按钮
+ 		// 图标按钮
+ 		showCharts:function(){
+ 			$('#eCharts').show();
+ 		},
+ 		// 关闭图表按钮
  		close:function(){
  			$('#eCharts').hide();
  		},
  		// 同步指数按钮
  		upData:function(){
- 			// location.reload();
- 			console.log(this.items)
+ 			$.get('/api/GIProject?SynEnt',function(data){
+ 				console.log(data)
+ 				console.log('同步成功')
+ 			})
  		},
  		// 显示企业列表
  		showComList:function(){
  			var vm = this;
  			$('#companyList').toggle(100);
- 			$.get('/api/GIProject?FindAll&searchName',function(data){
- 				vm.comList = data;
- 			})
+ 			vm.getComList();
  		},
  		addCompany:function(item){
  			var vm = this;
- 			item = {
+ 			var itemPost = {
  				Id:'',
  				PreIndexId: vm.itemInfo.Id,
  				ProjectId: item.ProjectId,
  				ProjectName: item.ProjectName
  			};
- 			$.post('/api/GIPreIndexProject',item,function(data){
+ 			$.post('/api/GIPreIndexProject',itemPost,function(data){
  				vm.comItems.push(data);
+ 				vm.comList.$remove(item)
  				console.log('添加成功')
  			})
  		},
+ 		// 企业退出大盘
  		quitCompany:function(item){
  			var vm = this;
  			$.get('/api/GIPreIndexProject?StopById&Id='+ item.Id,function(data){
  				item.OutDate = data.OutDate;
  				console.log('退出成功')
+ 			})
+ 		},
+ 		// 获取所有企业列表
+ 		getComList:function(){
+ 			var vm = this;
+ 			$.get('/api/GIProject?FindByPreIndexId&searchName='+vm.searchName + '&preIndexId=' + vm.itemInfo.Id,function(data){
+ 				vm.comList = data;
  			})
  		}
  	}

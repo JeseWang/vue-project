@@ -21,10 +21,13 @@
 						<a href="#"><i class="glyph-icon icon-home"></i>登陆</a>
 					</li>
 					<li class="childUlLi" @click="openIndex()">
-						<a href="#"><i class="glyph-icon icon-add"></i>期初指数</a>
+						<a href="#"><i class="glyph-icon icon-signal"></i>期初指数</a>
+					</li>
+					<li class="childUlLi">
+						<a href="charts/index.html" target="_blank"><i class="glyph-icon icon-bar-chart"></i>指数大盘图</a>
 					</li>
 					<li class="childUlLi" @click="upData()">
-						<a href="#"><i class="glyph-icon icon-location-arrow"></i>同步指数</a>
+						<a href="#"><i class="glyph-icon icon-location-arrow"></i> 同步指数</a>
 					</li>
 				</ul>
 			</nav>
@@ -118,8 +121,8 @@
 															<tr>
 																<th>序号</th>
 																<th>企业ID</th>
-																<th><input type="text" placeholder="搜索企业" v-model=""></th>
-																<th><button type="button" value="确定" class="btn btn-success" @click="search()">搜索</button></th>
+																<th><input type="text" placeholder="搜索企业" v-model="searchName"></th>
+																<th><button type="button" value="确定" class="btn btn-success" @click="getComList()">搜索</button></th>
 															</tr>
 														</thead>
 														<tbody v-for="item in comList">

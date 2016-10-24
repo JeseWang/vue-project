@@ -20,7 +20,7 @@
 .icon-reorder:before{content:"\f0c9";font-size: 16px}
 .icon-signal:before{content:"\f012";font-size: 16px}
 .icon-location-arrow:before{content:"\f124";font-size: 16px}
-.icon-add:before{content:"\f012";font-size:16px;}
+.icon-bar-chart:before{content:"\f080";font-size: 16px;}
 .icon-return:before{content:"\f122";font-size:20px;}
 .glyph-icon{
     vertical-align:middle;
