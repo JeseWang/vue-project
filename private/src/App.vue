@@ -1,28 +1,26 @@
 <template>
   <div id="app">
-    <!-- <img src="./assets/logo.png"> -->
-    <mu-appbar title="Title">
-      <mu-icon-button icon="menu" slot="left"/>
-      <mu-flat-button label="expand_more" slot="right"/>
-      <mu-icon-button icon="expand_more" slot="right"/>
-    </mu-appbar>
-    <router-view/>
+    <MenuComp />
+    <div class="maincontent">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'app'
-}
+  import MenuComp from '@/components/Menu.vue'
+  export default {
+    name: 'app',
+    components: {
+      MenuComp
+    }
+  }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="less">
+.maincontent{
+  overflow: hidden;
+  height: 1000px;
+  border: 1px solid red;
 }
 </style>
