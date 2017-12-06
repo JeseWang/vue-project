@@ -20,7 +20,5 @@
 <style lang="less">
 .maincontent{
   overflow: hidden;
-  height: 1000px;
-  border: 1px solid red;
 }
 </style>
