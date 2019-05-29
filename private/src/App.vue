@@ -1,17 +1,30 @@
 <template>
   <div id="app">
+    <p v-if="$store.state.isLogin">
+      已登录<button @click="logout">退出</button>
+    </p>
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/cart">购物车</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/">Home</router-link>|
+      <router-link to="/cart">购物车</router-link>|
+      <router-link to="/about">About</router-link>|
+      <router-link to="/login">登录</router-link>
     </div>
     <router-view/>
   </div>
 </template>
+<script>
+export default {
+  methods: {
+    async logout() {
+      await this.$store.dispatch("submitLogout");
+    }
+  }
+};
+</script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
