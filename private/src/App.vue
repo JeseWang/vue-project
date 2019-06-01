@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <p v-if="$store.state.isLogin">
-      已登录<button @click="logout">退出</button>
+      模拟已登录<button @click="logout">模拟登录的退出</button>
+    </p>
+    <p v-if="isLogin2">
+      <button @click="logout2" >模拟token的退出</button>
     </p>
     <div id="nav">
       <router-link to="/">Home</router-link>|
@@ -13,11 +16,18 @@
   </div>
 </template>
 <script>
+import {mapGetters} from 'vuex'
 export default {
   methods: {
     async logout() {
       await this.$store.dispatch("submitLogout");
+    },
+    logout2(){
+      this.$http.get('/api/logout')
     }
+  },
+  computed: {
+    ...mapGetters(['isLogin2'])
   }
 };
 </script>

@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     count: 1,
-    isLogin: false
+    isLogin: false,
+    token: localStorage.getItem('token') || ''
   },
   mutations: {//同步操作
     add(state){
@@ -20,11 +21,17 @@ export default new Vuex.Store({
     },
     logout(state){
       state.isLogin = false
+    },
+    setToken(state, token){
+      state.token = token
     }
   },
   getters: {//计算属性
     money: state => {
       return state.count + '元'
+    },
+    isLogin2: state => {
+      return !!state.token
     }
   },
   actions: {//异步操作

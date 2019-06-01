@@ -12,6 +12,7 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
+      meta: { auth: true },
       component: Home
     },
     {
@@ -22,11 +23,13 @@ const router = new Router({
     {
       path: '/cart',
       name: 'cart',
+      meta: { auth: true },
       component: () => import('./views/Cart.vue')
     },
     {
       path: '/about',
       name: 'about',
+      meta: { auth: true },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -42,15 +45,27 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if(to.path !== '/login'){
-    if(store.state.isLogin){
+  if (to.meta.auth) {
+    if (store.state.token) {
       next()
-    }else{
-      next(`login?redirect=${to.path}`)
+    } else {
+      next({
+        path: '/login',
+        query: { rediret: to.path }
+      })
     }
   }else{
     next()
   }
+  // if(to.path !== '/login'){
+  //   if(store.state.isLogin){
+  //     next()
+  //   }else{
+  //     next(`login?redirect=${to.path}`)
+  //   }
+  // }else{
+  //   next()
+  // }
   // next()
 })
 
