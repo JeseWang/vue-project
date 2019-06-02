@@ -90,7 +90,9 @@ export default {
         localStorage.setItem('token', token)
         this.$store.commit('setToken', token)
 
-        const { redirect } = this.$route.query.redirect || '/'
+        const redirect = this.$route.query.redirect || '/'
+        console.log(redirect)
+        console.log(this.$route.query)
         this.$router.push(redirect)
       } else {
         const toast = this.$createToast({
